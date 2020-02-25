@@ -1,35 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- /**
- * Filter By Category.
- *
- * The Filter By Category extension is for CMS Opencart 3.x Admin Panel.
- * It allows to filter products by category.
- *
- * @author      Andrii Burkatskyi aka underr underr.ua@gmail.com
- * @copyright   Copyright (c) 2018-2019 Andrii Burkatskyi
- * @license     https://raw.githubusercontent.com/underr-ua/ocmod3-filter-by-category/master/LICENSE.txt MIT
- *
- * @version     1.6
- *
- * @see         https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=34415
- * @see         https://underr.space/notes/projects/project-007.html
- * @see         https://github.com/underr-ua/ocmod3-filter-by-category
- */ -->
+<!--
+This file is part of "Filter By Category" project and subject to the terms
+and conditions defined in file "EULA.txt", which is part of this source
+code package and also available on the project page: https://git.io/JvEpH.
+-->
 
 <modification>
     <name>[underr] Filter By Category</name>
     <code>filter-by-category</code>
     <version>1.6</version>
     <author>Andrii Burkatskyi aka underr</author>
-    <link>https://github.com/underr-ua/ocmod3-filter-by-category/</link>
+    <link>https://git.io/JvEpH</link>
 
     <file error="log" path="admin/model/catalog/product.php">
         <operation error="log">
             <search>
+                <!-- <![CDATA[$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";]]> -->
                 <![CDATA[$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";]]>
             </search>
-            <add ignoreif="Admin Filter+" position="after">
+            <add position="after">
                 <![CDATA[
         // Filter By Category
         if (!empty($data['filter_category'])) {
@@ -42,7 +32,7 @@
             <search>
                 <![CDATA[$sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";]]>
             </search>
-            <add ignoreif="Admin Filter+" position="replace">
+            <add position="replace">
                 <![CDATA[// Filter by Category
         $sql = "SELECT p.*,pd.* FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";
         $sql .= " LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)";
@@ -84,7 +74,7 @@
             <search>
                 <![CDATA[$sql .= " GROUP BY p.product_id";]]>
             </search>
-            <add ignoreif="Admin Filter+" position="before">
+            <add position="before">
             <![CDATA[
         // Filter By Category
         if (!empty($data['filter_category'])) {
@@ -114,7 +104,7 @@
             <search>
                 <![CDATA[$url = '';]]>
             </search>
-            <add ignoreif="Admin Filter+" position="after">
+            <add position="after">
                 <![CDATA[
             // Filter By Category
             if (isset($this->request->get['filter_category'])) {
@@ -127,7 +117,7 @@
             <search>
                 <![CDATA[protected function getList() {]]>
             </search>
-            <add ignoreif="Admin Filter+" position="after">
+            <add position="after">
                 <![CDATA[        // Filter By Category
         if (isset($this->request->get['filter_category'])) {
             $filter_category = $this->request->get['filter_category'];
@@ -142,7 +132,7 @@
             <search>
                 <![CDATA['filter_name'	  => $filter_name,]]>
             </search>
-            <add ignoreif="Admin Filter+" position="after">
+            <add position="after">
                 <![CDATA[			'filter_category' => $filter_category,  // Filter By Category]]>
             </add>
         </operation>
@@ -151,7 +141,7 @@
             <search>
                 <![CDATA[$product_total = $this->model_catalog_product->getTotalProducts($filter_data);]]>
             </search>
-            <add ignoreif="Admin Filter+" position="after">
+            <add position="after">
                 <![CDATA[
         // Filter By Category
         $this->load->model('catalog/category');
@@ -164,7 +154,7 @@
             <search>
                 <![CDATA[$data['products'][] = array(]]>
             </search>
-            <add ignoreif="Admin Filter+" position="before">
+            <add position="before">
                 <![CDATA[			// Filter By Category
 			$category =  $this->model_catalog_product->getProductCategories($result['product_id']);
             ///]]>
@@ -175,7 +165,7 @@
             <search>
                 <![CDATA['name'       => $result['name'],]]>
             </search>
-            <add ignoreif="Admin Filter+" position="before">
+            <add position="before">
                 <![CDATA[				'category'   => $category,  // Filter By Category]]>
             </add>
         </operation>
@@ -184,7 +174,7 @@
             <search>
                 <![CDATA[$data['filter_name'] = $filter_name;]]>
             </search>
-            <add ignoreif="Admin Filter+" position="before">
+            <add position="before">
                 <![CDATA[		$data['filter_category'] = $filter_category; // Filter By Category]]></add>
         </operation>
     </file>
@@ -192,9 +182,9 @@
     <file error="log" path="admin/view/template/catalog/product_list.twig">
         <operation error="log">
             <search>
-                <![CDATA[var filter_quantity = $('input[name=\'filter_quantity\']').val();]]>
+                <![CDATA[var filter_quantity]]>
             </search>
-            <add ignoreif="Admin Filter+" position="before">
+            <add position="before">
                 <![CDATA[            <!-- Filter by Category -->
             var filter_category = $('select[name=\'filter_category\']').val();
 
@@ -208,7 +198,7 @@
             <search>
                 <![CDATA[<td class="text-right">{% if sort == 'p.quantity' %}]]>
             </search>
-            <add ignoreif="Admin Filter+" position="before">
+            <add position="before">
                 <![CDATA[                      <!-- Filter By Category -->
                       <td class="text-left">{{ entry_category }}</td>]]>
             </add>
@@ -218,7 +208,7 @@
             <search>
                 <![CDATA[<td class="text-right">{% if product.quantity <= 0 %}]]>
             </search>
-            <add ignoreif="Admin Filter+" position="before">
+            <add position="before">
             <![CDATA[                      <!-- Filter By Category -->
                     <td class="text-left">{% for category in categories %}{% if category.category_id in product.category %}{{ category.name }}<br>{% endif %}{% endfor %}</td>]]>
             </add>
@@ -228,7 +218,7 @@
             <search index="0">
                 <![CDATA[<div class="form-group">]]>
             </search>
-            <add ignoreif="Admin Filter+" position="before">
+            <add position="before">
                 <![CDATA[
             <!-- Filter by Category -->
             <div class="form-group">
