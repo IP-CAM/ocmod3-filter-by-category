@@ -12,7 +12,7 @@ The Filter By Category extension is for Opencart CMS 3. It allows to filter prod
 * [Admin](http://ocmod.freevar.com/oc3020/b/admin/index.php?route=catalog/product)
 
 ## License
-Licensed under [MIT](https://git.io/JvEhT)
+Licensed under [MIT License](https://git.io/JvEhT)
 
 ## Additional Links
 * [Homepage](https://underr.space/tag:opencart)

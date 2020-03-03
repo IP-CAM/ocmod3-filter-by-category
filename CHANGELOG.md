@@ -1,5 +1,9 @@
 # Change log
 
+## [1.6.1] - 2020.03.03:
+### Fixed
+- Minor code fixes to improve compatibility with other extensions
+
 ## [1.6.0] - 2019.08.20:
 ### Fixed
 - Duplication of categories while product editing
